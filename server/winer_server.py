@@ -15,7 +15,10 @@ chat_log = []
 
 @app.route('/')
 def render_chat_page():
-    return render_template('chat.html')
+    load_chat_log()
+    return render_template('chat.html',log: chat_log)
+
+@app.route('/message')
 
 def load_chat_log():
     with open('chat_log.json', 'r') as chat_log_file:
