@@ -1,12 +1,17 @@
-var xhttp = new XMLHttpRequest();
-function sendMessage(){
+let ws = new WebSocket('ws://' + window.document.location.host);
 
-}
-function handleSubmitButton(){
-    var message = JSON.stringify({body:getElementsByName('textBox').trim()});
-    if(message != "{}"){
-        xhttp.open("POST","/message",true);
-        xhttp.send(message);
-        }
+ws.onopen = function(event) {
+    ws.send(JSON.stringify({type: 'fetchChatHistory'}));
+};
+
+ws.onmessage = function(messageData) {
+    let message = JSON.parse(messageData.data);
+    // TODO: render message on page
+};
+
+function handleSubmitButton() {
+    messageBody = getElementsByName('textBox').trim();
+    if(messageBody) {
+        ws.send(JSON.stringify({body: messageBody}));
     }
 }
