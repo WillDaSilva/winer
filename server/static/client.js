@@ -1,9 +1,5 @@
 let ws = new WebSocket('ws://' + window.document.location.host);
 
-ws.onopen = function(event) {
-    ws.send(JSON.stringify({type: 'fetchChatHistory'}));
-};
-
 ws.onmessage = function(messageData) {
     let message = JSON.parse(messageData.data);
     let messageBox = document.getElementsById('messageBox');
@@ -46,7 +42,7 @@ handleMessageUpdate.loadedHistory = false; // Flag to indicate first call
 function handleSubmitButton() {
     messageBody = getElementsByName('textBox').trim();
     if(messageBody) {
-        ws.send(JSON.stringify({body: messageBody}));
+        ws.send(JSON.stringify({type: 'message', body: messageBody}));
     }
 }
 
